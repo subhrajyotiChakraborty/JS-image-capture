@@ -3,6 +3,7 @@ var videoSelect = document.querySelector("select#videoSource");
 var cameraTrigger = document.querySelector("#camera--trigger");
 var cameraSensor = document.querySelector("#camera--sensor");
 var cameraOutput = document.querySelector("#camera--output");
+var parentWindowEvent;
 videoSelect.onchange = getStream;
 
 getStream().then(getDevices).then(gotDevices);
@@ -17,9 +18,38 @@ cameraTrigger.onclick = function () {
   cameraSensor.width = 0;
   cameraSensor.height = 0;
 
+  parentWindowEvent &&
+    parentWindowEvent.source &&
+    parentWindowEvent.source.postMessage(
+      "hi there yourself!  the secret response " + "is: rheeeeet!",
+      parentWindowEvent.origin
+    );
+
   // console.log(cameraOutput.src);
   processImage(cameraOutput.src);
 };
+
+window.addEventListener(
+  "message",
+  (event) => {
+    parentWindowEvent = event;
+    // Do we trust the sender of this message?
+    // if (event.origin !== "http://localhost:9085") return;
+
+    // event.source is window.opener
+    // event.data is "hello there!"
+
+    // Assuming you've verified the origin of the received message (which
+    // you must do in any case), a convenient idiom for replying to a
+    // message is to call postMessage on event.source and provide
+    // event.origin as the targetOrigin.
+    // event.source.postMessage(
+    //   "hi there yourself!  the secret response " + "is: rheeeeet!",
+    //   event.origin
+    // );
+  },
+  false
+);
 
 function processImage(imageData) {
   Quagga.decodeSingle(
