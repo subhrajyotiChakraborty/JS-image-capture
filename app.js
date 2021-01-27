@@ -18,13 +18,18 @@ cameraTrigger.onclick = function () {
   cameraSensor.width = 0;
   cameraSensor.height = 0;
 
-  parentWindowEvent &&
-    parentWindowEvent.source &&
-    parentWindowEvent.source.postMessage("1234567", parentWindowEvent.origin);
+  //-----------//
+  // Uncomment below codes where scan is not possible
 
-  window.close();
+  // parentWindowEvent &&
+  //   parentWindowEvent.source &&
+  //   parentWindowEvent.source.postMessage("1234567", parentWindowEvent.origin);
 
-  // console.log(cameraOutput.src);
+  // window.close();
+
+  //-----------//
+
+  // Comment out below line where scan is not possible
   processImage(cameraOutput.src);
 };
 
@@ -32,20 +37,6 @@ window.addEventListener(
   "message",
   (event) => {
     parentWindowEvent = event;
-    // Do we trust the sender of this message?
-    // if (event.origin !== "http://localhost:9085") return;
-
-    // event.source is window.opener
-    // event.data is "hello there!"
-
-    // Assuming you've verified the origin of the received message (which
-    // you must do in any case), a convenient idiom for replying to a
-    // message is to call postMessage on event.source and provide
-    // event.origin as the targetOrigin.
-    // event.source.postMessage(
-    //   "hi there yourself!  the secret response " + "is: rheeeeet!",
-    //   event.origin
-    // );
   },
   false
 );
@@ -74,7 +65,14 @@ function processImage(imageData) {
     function (result) {
       if (result.codeResult) {
         console.log("result", result.codeResult.code);
-        alert(result.codeResult.code);
+        // alert(result.codeResult.code);
+        parentWindowEvent &&
+          parentWindowEvent.source &&
+          parentWindowEvent.source.postMessage(
+            result.codeResult.code,
+            parentWindowEvent.origin
+          );
+        window.close();
       } else {
         console.log("not detected");
         alert("not detected");
