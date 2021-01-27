@@ -20,10 +20,9 @@ cameraTrigger.onclick = function () {
 
   parentWindowEvent &&
     parentWindowEvent.source &&
-    parentWindowEvent.source.postMessage(
-      "hi there yourself!  the secret response " + "is: rheeeeet!",
-      parentWindowEvent.origin
-    );
+    parentWindowEvent.source.postMessage("1234567", parentWindowEvent.origin);
+
+  window.close();
 
   // console.log(cameraOutput.src);
   processImage(cameraOutput.src);
