@@ -1,10 +1,19 @@
 html,
 body {
-  margin: 0;
-  padding: 0;
   height: 500px;
-  width: 100%;
   position: relative;
+}
+
+h1 {
+  margin: 0 0 24px 0;
+}
+
+select {
+  width: 150px;
+}
+
+video {
+  margin: 10px 0 0 0;
 }
 
 #camera,
@@ -25,6 +34,10 @@ body {
 }
 
 #camera--trigger {
+  display: none;
+}
+
+#camera--close {
   width: 200px;
   background-color: black;
   color: white;
@@ -37,6 +50,7 @@ body {
   position: absolute;
   bottom: 0;
   left: calc(50% - 100px);
+  cursor: pointer;
 }
 
 .taken {
@@ -48,14 +62,149 @@ body {
   bottom: 230px;
   left: 0;
   z-index: 2;
-  display: block !important;
 }
 
 .camera-selector {
-  width: 300px;
-  width: 300px;
+  width: 400px;
+}
+
+.camera-panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .image-capture {
   display: none;
+}
+
+.video-wrapper {
+  position: absolute;
+  width: 360px;
+  height: 250px;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+}
+
+.small-border-box {
+  position: absolute;
+  width: 19px;
+  height: 16px;
+  border: 3px solid #ffffff;
+}
+
+.top-left-border {
+  left: -3px;
+  top: -3px;
+  border-right: none !important;
+  border-bottom: none !important;
+}
+.top-right-border {
+  right: -3px;
+  top: -3px;
+  border-left: none !important;
+  border-bottom: none !important;
+}
+.bottom-left-border {
+  left: -3px;
+  bottom: -3px;
+  border-right: none !important;
+  border-top: none !important;
+}
+.bottom-right-border {
+  right: -3px;
+  bottom: -3px;
+  border-left: none !important;
+  border-top: none !important;
+}
+
+.barcode-toggle {
+  margin-top: 10px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 90px;
+  height: 34px;
+  vertical-align: middle;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ca2222;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #2ab934;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(55px);
+  -ms-transform: translateX(55px);
+  transform: translateX(55px);
+}
+
+/*------ ADDED CSS ---------*/
+.on {
+  display: none;
+}
+
+.on,
+.off {
+  color: white;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  font-size: 10px;
+  font-family: Verdana, sans-serif;
+}
+
+input:checked + .slider .on {
+  display: block;
+}
+
+input:checked + .slider .off {
+  display: none;
+}
+
+/*--------- END --------*/
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }

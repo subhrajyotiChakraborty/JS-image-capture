@@ -4,9 +4,12 @@ var cameraTrigger = document.querySelector("#camera--trigger");
 var cameraSensor = document.querySelector("#camera--sensor");
 var cameraOutput = document.querySelector("#camera--output");
 var parentWindowEvent;
+var confirmation;
+var timer;
 videoSelect.onchange = getStream;
 
 getStream().then(getDevices).then(gotDevices);
+createInterval();
 
 cameraTrigger.onclick = function () {
   cameraSensor.width = videoElement.videoWidth;
@@ -63,19 +66,32 @@ function processImage(imageData) {
       src: imageData, // or 'data:image/jpg;base64,' + data
     },
     function (result) {
-      if (result.codeResult) {
+      if (result && result.codeResult) {
         console.log("result", result.codeResult.code);
-        // alert(result.codeResult.code);
-        parentWindowEvent &&
-          parentWindowEvent.source &&
-          parentWindowEvent.source.postMessage(
-            result.codeResult.code,
-            parentWindowEvent.origin
-          );
-        window.close();
+        clearInterval(timer);
+        confirmation = confirm(
+          `Barcode detected ${result.codeResult.code}, scan again?`
+        );
+        if (confirmation == true) {
+          createInterval();
+        } else {
+          parentWindowEvent &&
+            parentWindowEvent.source &&
+            parentWindowEvent.source.postMessage(
+              result.codeResult.code,
+              parentWindowEvent.origin
+            );
+          window.close();
+        }
       } else {
         console.log("not detected");
-        alert("not detected");
+        clearInterval(timer);
+        confirmation = confirm("No barcode  detected, scan again?");
+        if (confirmation == true) {
+          createInterval();
+        } else {
+          window.close();
+        }
       }
     }
   );
@@ -125,4 +141,14 @@ function gotStream(stream) {
 
 function handleError(error) {
   console.error("Error: ", error);
+}
+
+function createInterval() {
+  timer = setInterval(() => {
+    cameraTrigger.click();
+  }, 1000);
+}
+
+function closeWindow() {
+  window.close();
 }

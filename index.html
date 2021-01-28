@@ -11,38 +11,44 @@
 
 	<!-- Link to main style sheet -->
 	<link rel="stylesheet" href="style.css">
-	<style>
-		h1 {
-			margin: 0 0 24px 0;
-		}
-
-		select {
-			width: 150px;
-		}
-
-		video {
-			margin: 10px 0 0 0;
-		}
-	</style>
 </head>
 
 <body>
 	<div class="select">
-		<label for="videoSource">Video source: </label><select id="videoSource"></select>
+		<label for="videoSource">Video Source: </label><select id="videoSource"></select>
+	</div>
+	<div class="barcode-toggle">
+		<label for="switch">Barcode Scan: </label>
+		<label class="switch">
+			<input type="checkbox" checked id="togBtn">
+			<div class="slider round">
+				<!--ADDED HTML -->
+				<span class="on">ON</span>
+				<span class="off">OFF</span>
+				<!--END-->
+			</div>
+		</label>
 	</div>
 
 	<!-- Camera -->
 	<!-- Camera sensor -->
-	<canvas id="camera--sensor"></canvas>
+	<canvas id="camera--sensor" style="display: none;"></canvas>
 
 	<!-- Camera view -->
-	<video class="camera-selector" autoplay playsinline></video>
+	<video class="camera-selector camera-panel" autoplay playsinline></video>
+	<div class="video-wrapper">
+		<div class="top-left-border small-border-box"></div>
+		<div class="top-right-border small-border-box"></div>
+		<div class="bottom-left-border small-border-box"></div>
+		<div class="bottom-right-border small-border-box"></div>
+	</div>
 
 	<!-- Camera output -->
 	<img src="//:0" alt="" id="camera--output" class="image-capture">
 
 	<!-- Camera trigger -->
 	<button id="camera--trigger">Take a picture</button>
+	<button id="camera--close" onclick="closeWindow()">Close</button>
 
 	<script async src="app.js"></script>
 </body>
