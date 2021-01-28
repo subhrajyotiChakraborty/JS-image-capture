@@ -9,7 +9,7 @@ var timer;
 videoSelect.onchange = getStream;
 
 getStream().then(getDevices).then(gotDevices);
-createInterval();
+// createInterval();
 
 cameraTrigger.onclick = function () {
   cameraSensor.width = videoElement.videoWidth;
