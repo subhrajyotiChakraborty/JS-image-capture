@@ -116,7 +116,7 @@ function processInBackend(imageData) {
     .post("YOUR_BACKEND_API_ENDPOINT", formData)
     .then((res) => {
       if (res.data.code) {
-        successHandler(res.data.responseText);
+        successHandler(res.data.code);
       } else {
         errorHandler();
       }
