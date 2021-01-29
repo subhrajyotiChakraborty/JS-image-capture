@@ -68,12 +68,13 @@ function processImage(imageData) {
     function (result) {
       if (result && result.codeResult) {
         console.log("result", result.codeResult.code);
-        clearInterval(timer);
+        // clearInterval(timer);
         confirmation = confirm(
           `Barcode detected ${result.codeResult.code}, scan again?`
         );
         if (confirmation == true) {
-          createInterval();
+          // createInterval();
+          cameraTrigger.click();
         } else {
           parentWindowEvent &&
             parentWindowEvent.source &&
@@ -85,10 +86,11 @@ function processImage(imageData) {
         }
       } else {
         console.log("not detected");
-        clearInterval(timer);
+        // clearInterval(timer);
         confirmation = confirm("No barcode  detected, scan again?");
         if (confirmation == true) {
-          createInterval();
+          // createInterval();
+          cameraTrigger.click();
         } else {
           window.close();
         }
