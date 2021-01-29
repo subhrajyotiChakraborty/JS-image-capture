@@ -69,39 +69,61 @@ function processImage(imageData) {
       if (result && result.codeResult) {
         console.log("result", result.codeResult.code);
         // clearInterval(timer);
-        confirmation = confirm(
-          `Barcode detected ${result.codeResult.code}, scan again?`
-        );
-        if (confirmation == true) {
-          // createInterval();
-          cameraTrigger.click();
-        } else {
-          parentWindowEvent &&
-            parentWindowEvent.source &&
-            parentWindowEvent.source.postMessage(
-              result.codeResult.code,
-              parentWindowEvent.origin
-            );
-          window.close();
-        }
+        successHandler(result.codeResult.code);
       } else {
         console.log("not detected");
         // clearInterval(timer);
-        confirmation = confirm("No barcode  detected, scan again?");
-        if (confirmation == true) {
-          // createInterval();
-          cameraTrigger.click();
-        } else {
-          window.close();
-        }
+        processInBackend(imageData);
       }
     }
   );
 }
 
+function successHandler(code) {
+  confirmation = confirm(
+    `Barcode detected ${code}, press "Cancel" if you want to proceed with it or press "OK" to scan again.`
+  );
+  if (confirmation == true) {
+    // createInterval();
+    cameraTrigger.click();
+  } else {
+    parentWindowEvent &&
+      parentWindowEvent.source &&
+      parentWindowEvent.source.postMessage(code, parentWindowEvent.origin);
+    window.close();
+  }
+}
+
+function errorHandler() {
+  confirmation = confirm(`No barcode detected, press "OK" to scan again.`);
+  if (confirmation == true) {
+    // createInterval();
+    cameraTrigger.click();
+  } else {
+    window.close();
+  }
+}
+
 function getDevices() {
   // AFAICT in Safari this only gets default devices until gUM is called :/
   return navigator.mediaDevices.enumerateDevices();
+}
+
+function processInBackend(imageData) {
+  var formData = new FormData();
+  formData.append("imageData", imageData);
+  window.axios
+    .post("YOUR_BACKEND_API_ENDPOINT", formData)
+    .then((res) => {
+      if (res.data.code) {
+        successHandler(res.data.responseText);
+      } else {
+        errorHandler();
+      }
+    })
+    .catch((err) => {
+      errorHandler();
+    });
 }
 
 function gotDevices(deviceInfos) {

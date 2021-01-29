@@ -1,6 +1,5 @@
 html,
 body {
-  height: 500px;
   position: relative;
 }
 
@@ -22,6 +21,7 @@ video {
   height: 500px;
   width: 400px;
   left: 50%;
+  /* top: 50%; */
   transform: translate(-50%, 0);
   padding: 10px;
   border: 1px solid;
@@ -90,7 +90,8 @@ video {
   z-index: 2;
 }
 
-.camera-selector {
+.select {
+  margin-top: 10px;
 }
 
 .camera-panel {
